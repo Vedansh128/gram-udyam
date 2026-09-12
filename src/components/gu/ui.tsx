@@ -110,8 +110,9 @@ export function Field({
 }: {
   label: string;
   children: ReactNode;
-  error?: string;
+  error?: string | undefined;
 }) {
+
   return (
     <label className="block">
       <span className="mb-1.5 block text-sm font-medium text-foreground">{label}</span>
