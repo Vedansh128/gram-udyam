@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as ReportRouteImport } from './routes/report'
+import { Route as ApiPublicFinancialRouteImport } from './routes/api/public/financial'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +36,32 @@ const HowItWorksRoute = HowItWorksRouteImport.update({
   path: '/how-it-works',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReportRoute = ReportRouteImport.update({
+  id: '/report',
+  path: '/report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicFinancialRoute = ApiPublicFinancialRouteImport.update({
+  id: '/api/public/financial',
+  path: '/api/public/financial',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
   '/calculator': typeof CalculatorRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/report': typeof ReportRoute
+  '/api/public/financial': typeof ApiPublicFinancialRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
   '/calculator': typeof CalculatorRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/report': typeof ReportRoute
+  '/api/public/financial': typeof ApiPublicFinancialRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +69,34 @@ export interface FileRoutesById {
   '/assessment': typeof AssessmentRoute
   '/calculator': typeof CalculatorRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/report': typeof ReportRoute
+  '/api/public/financial': typeof ApiPublicFinancialRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/assessment' | '/calculator' | '/how-it-works'
+  fullPaths:
+    | '/'
+    | '/assessment'
+    | '/calculator'
+    | '/how-it-works'
+    | '/report'
+    | '/api/public/financial'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/assessment' | '/calculator' | '/how-it-works'
-  id: '__root__' | '/' | '/assessment' | '/calculator' | '/how-it-works'
+  to:
+    | '/'
+    | '/assessment'
+    | '/calculator'
+    | '/how-it-works'
+    | '/report'
+    | '/api/public/financial'
+  id:
+    | '__root__'
+    | '/'
+    | '/assessment'
+    | '/calculator'
+    | '/how-it-works'
+    | '/report'
+    | '/api/public/financial'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +104,8 @@ export interface RootRouteChildren {
   AssessmentRoute: typeof AssessmentRoute
   CalculatorRoute: typeof CalculatorRoute
   HowItWorksRoute: typeof HowItWorksRoute
+  ReportRoute: typeof ReportRoute
+  ApiPublicFinancialRoute: typeof ApiPublicFinancialRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +138,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HowItWorksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/report': {
+      id: '/report'
+      path: '/report'
+      fullPath: '/report'
+      preLoaderRoute: typeof ReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/financial': {
+      id: '/api/public/financial'
+      path: '/api/public/financial'
+      fullPath: '/api/public/financial'
+      preLoaderRoute: typeof ApiPublicFinancialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +160,8 @@ const rootRouteChildren: RootRouteChildren = {
   AssessmentRoute: AssessmentRoute,
   CalculatorRoute: CalculatorRoute,
   HowItWorksRoute: HowItWorksRoute,
+  ReportRoute: ReportRoute,
+  ApiPublicFinancialRoute: ApiPublicFinancialRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
