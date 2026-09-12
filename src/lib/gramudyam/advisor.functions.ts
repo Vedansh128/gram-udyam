@@ -68,7 +68,7 @@ export const askAdvisor = createServerFn({ method: "POST" })
     const fin = calculateFinancials(a.margin);
     const profile = getProfile(a.category);
     const system = `You are GramUdyam AI, a practical business advisor for rural Indian micro-entrepreneurs.
-Answer in ${data.language === "hi" ? "Hindi" : "simple English"}, under 130 words, plain and concrete.
+Answer in ${data.language === "hi" ? "Hindi" : "simple English"}, under 130 words, plain and concrete. Write plain sentences only — no markdown, no asterisks, no headings.
 Never promise loan approval or guaranteed profit. Label numbers as estimates.
 Context: location ${a.village}, ${a.block}, ${a.district}, ${a.state}. Category ${a.category}. Experience ${a.experience}. Target market ${a.targetMarket}.
 Margin ${fin.margin}, project cost ${fin.projectCost}, potential loan ${fin.potentialLoan}, scheme ${fin.scheme.name}, interest ${fin.interestRate}%, tenure ${fin.tenureYears} years, EMI ${fin.emi}.
