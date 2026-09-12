@@ -75,7 +75,7 @@ Margin ${fin.margin}, project cost ${fin.projectCost}, potential loan ${fin.pote
 Known local opportunities: ${profile.opportunities.map((o) => o.name).join(", ")}.`;
 
     try {
-      const res = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
+      const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -84,51 +84,25 @@ Known local opportunities: ${profile.opportunities.map((o) => o.name).join(", ")
         },
         body: JSON.stringify({
           model: "google/gemini-3.8-flash",
-          input: [
-            { role: "system", content: [{ type: "input_text", text: system }] },
-            { role: "user", content: [{ type: "input_text", text: data.question }] },
+          messages: [
+            { role: "system", content: system },
+            { role: "user", content: data.question },
           ],
-          stream: true,
         }),
       });
 
-      if (!res.ok || !res.body) {
+      if (!res.ok) {
         return { answer: fallbackAnswer(data), source: "demo" as const };
       }
 
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = "";
-      let text = "";
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop() ?? "";
-        for (const line of lines) {
-          if (!line.startsWith("data:")) continue;
-          const payload = line.slice(5).trim();
-          if (!payload || payload === "[DONE]") continue;
-          try {
-            const evt = JSON.parse(payload) as {
-              type?: string;
-              delta?: string;
-              response?: { output_text?: string };
-            };
-            if (evt.type === "response.output_text.delta" && evt.delta) text += evt.delta;
-            if (evt.type === "response.completed" && evt.response?.output_text && !text) {
-              text = evt.response.output_text;
-            }
-          } catch {
-            /* ignore partial frames */
-          }
-        }
-      }
-
-      if (!text.trim()) return { answer: fallbackAnswer(data), source: "demo" as const };
-      return { answer: text.trim(), source: "ai" as const };
+      const json = (await res.json()) as {
+        choices?: { message?: { content?: string } }[];
+      };
+      const text = json.choices?.[0]?.message?.content?.trim() ?? "";
+      if (!text) return { answer: fallbackAnswer(data), source: "demo" as const };
+      return { answer: text, source: "ai" as const };
     } catch {
       return { answer: fallbackAnswer(data), source: "demo" as const };
     }
   });
+
