@@ -16,6 +16,8 @@ export const Route = createFileRoute("/calculator")({
         content:
           "Enter your margin capital to see project cost, potential loan, the matching scheme and your estimated EMI.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:title", content: "Loan & EMI Calculator — Gram Udyam" },
       {
         property: "og:description",
@@ -53,15 +55,16 @@ function CalculatorPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="mx-auto max-w-4xl px-4 py-10">
-        <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
+      <main className="mx-auto max-w-5xl px-4 py-12 sm:py-16">
+        <p className="text-sm font-bold uppercase text-primary">Deterministic financial planning</p>
+        <h1 className="mt-2 text-4xl font-extrabold sm:text-5xl">
           Loan Eligibility & EMI Calculator
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Estimated repayment — subject to final sanction terms.
         </p>
 
-        <Card className="mt-6">
+        <Card className="mt-8 p-6 sm:p-8">
           <Field label="Available Margin Capital (₹)">
             <Input
               type="number"
@@ -73,7 +76,7 @@ function CalculatorPage() {
           </Field>
         </Card>
 
-        <Card className="mt-6 bg-primary/5">
+        <Card className="mt-6 bg-primary/5 p-6">
           <div className="flex flex-col items-center gap-1">
             {flow.map((f, i) =>
               f.value ? (

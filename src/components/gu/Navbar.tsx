@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Menu, Sprout, X } from "lucide-react";
+import { Globe2, Menu, Sprout, X } from "lucide-react";
 import { useState } from "react";
-import { useLang } from "@/lib/gramudyam/i18n";
+import { LANGUAGES, useLang } from "@/lib/gramudyam/i18n";
 import { DEMO_ASSESSMENT } from "@/lib/gramudyam/report";
 import { saveAssessment } from "@/lib/gramudyam/store";
 import { Button, LinkButton } from "./ui";
@@ -25,13 +25,13 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur print:hidden">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl print:hidden">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3.5">
         <Link to="/" className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
             <Sprout className="h-5 w-5" />
           </span>
-          <span className="text-lg font-extrabold tracking-tight">{t("brand")}</span>
+          <span className="font-display text-lg font-extrabold">{t("brand")}</span>
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
@@ -55,19 +55,13 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <div className="hidden items-center rounded-lg border border-border p-0.5 sm:flex">
-            {(["en", "hi"] as const).map((l) => (
-              <button
-                key={l}
-                onClick={() => setLang(l)}
-                className={`rounded-md px-2.5 py-1 text-xs font-semibold transition-colors ${
-                  lang === l ? "bg-primary text-primary-foreground" : "text-muted-foreground"
-                }`}
-              >
-                {l === "en" ? "English" : "हिंदी"}
-              </button>
-            ))}
-          </div>
+          <label className="hidden items-center gap-2 rounded-lg border border-border bg-card px-2.5 sm:flex">
+            <Globe2 className="h-4 w-4 text-primary" />
+            <span className="sr-only">Choose language</span>
+            <select value={lang} onChange={(event) => setLang(event.target.value as typeof lang)} className="h-9 max-w-28 bg-transparent text-sm font-semibold outline-none">
+              {LANGUAGES.map((item) => <option key={item.code} value={item.code}>{item.label}</option>)}
+            </select>
+          </label>
           <LinkButton to="/assessment" className="hidden sm:inline-flex">
             {t("startAssessment")}
           </LinkButton>
@@ -101,19 +95,12 @@ export function Navbar() {
             >
               {t("tryDemo")}
             </button>
-            <div className="mt-2 flex items-center gap-2">
-              {(["en", "hi"] as const).map((l) => (
-                <button
-                  key={l}
-                  onClick={() => setLang(l)}
-                  className={`flex-1 rounded-lg border border-border px-3 py-2 text-sm font-semibold ${
-                    lang === l ? "bg-primary text-primary-foreground" : ""
-                  }`}
-                >
-                  {l === "en" ? "English" : "हिंदी"}
-                </button>
-              ))}
-            </div>
+            <label className="mt-2 flex items-center gap-2 rounded-lg border border-border bg-card px-3">
+              <Globe2 className="h-4 w-4 text-primary" />
+              <select value={lang} onChange={(event) => setLang(event.target.value as typeof lang)} className="h-12 w-full bg-transparent font-semibold outline-none">
+                {LANGUAGES.map((item) => <option key={item.code} value={item.code}>{item.label}</option>)}
+              </select>
+            </label>
             <LinkButton to="/assessment" className="mt-2" size="lg" onClick={() => setOpen(false)}>
               {t("startAssessment")}
             </LinkButton>

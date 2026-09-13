@@ -1,4 +1,4 @@
-export type Lang = "en" | "hi";
+export type Lang = "en" | "hi" | "mr" | "gu" | "ta" | "te" | "ml" | "bn" | "pa";
 
 export type Assessment = {
   state: string;

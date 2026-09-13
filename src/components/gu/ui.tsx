@@ -18,7 +18,7 @@ const sizes: Record<Size, string> = {
 };
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-60 disabled:pointer-events-none";
+  "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-60 disabled:pointer-events-none active:translate-y-px";
 
 export function Button({
   variant = "primary",
@@ -41,7 +41,7 @@ export function LinkButton({
 export function Card({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
-      className={cn("rounded-2xl border border-border bg-card p-5 shadow-sm", className)}
+      className={cn("glass-panel rounded-lg p-5", className)}
       {...props}
     />
   );
@@ -64,7 +64,7 @@ export function Section({
     <section id={id} className="scroll-mt-24">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h2 className="text-xl font-bold tracking-tight sm:text-2xl">{title}</h2>
+          <h2 className="text-2xl font-bold sm:text-3xl">{title}</h2>
           {subtitle ? <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p> : null}
         </div>
         {badge}
@@ -123,7 +123,7 @@ export function Field({
 }
 
 const controlClass =
-  "w-full rounded-xl border border-input bg-card px-3 py-3 text-base text-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-ring/30";
+  "w-full rounded-lg border border-input bg-card px-3 py-3 text-base text-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-ring/30";
 
 export function Input({ className, ...props }: ComponentProps<"input">) {
   return <input className={cn(controlClass, className)} {...props} />;

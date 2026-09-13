@@ -64,13 +64,14 @@ export function ChatAdvisor({ assessment }: { assessment: Assessment }) {
       <Card className="print:hidden">
         <div className="mb-3 flex flex-wrap gap-2">
           {SUGGESTIONS.map((s) => (
-            <button
+            <Button
               key={s}
+              variant="outline"
               onClick={() => void send(s)}
-              className="rounded-full border border-border bg-surface px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              className="h-auto rounded-full px-3 py-2 text-xs font-medium text-muted-foreground"
             >
               {s}
-            </button>
+            </Button>
           ))}
         </div>
 

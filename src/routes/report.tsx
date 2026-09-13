@@ -30,6 +30,8 @@ export const Route = createFileRoute("/report")({
         content:
           "Viability score, local market analysis, opportunities, SWOT, risks, scheme recommendation and EMI plan in one report.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:title", content: "Your Business Report — Gram Udyam" },
       {
         property: "og:description",
@@ -90,11 +92,11 @@ function ReportPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="mx-auto max-w-6xl space-y-12 px-4 py-10 print:space-y-8 print:py-4">
-        <header className="flex flex-wrap items-start justify-between gap-4">
+      <main className="mx-auto max-w-6xl space-y-14 px-4 py-12 sm:py-16 print:space-y-8 print:py-4">
+        <header className="glass-panel flex flex-wrap items-start justify-between gap-4 rounded-lg border-l-4 border-l-primary p-6 sm:p-8">
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
+              <h1 className="text-3xl font-extrabold sm:text-5xl">
                 Business Report
               </h1>
               {demo ? <Badge tone="warning">{t("demoBadge")}</Badge> : null}

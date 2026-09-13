@@ -17,7 +17,7 @@ const AssessmentSchema = z.object({
 
 const InputSchema = z.object({
   question: z.string().min(1),
-  language: z.enum(["en", "hi"]).default("en"),
+  language: z.enum(["en", "hi", "mr", "gu", "ta", "te", "ml", "bn", "pa"]).default("en"),
   assessment: AssessmentSchema,
 });
 
@@ -49,10 +49,12 @@ function fallbackAnswer(input: AdvisorInput): string {
     body = `For ${a.category} in ${place}: your indicative project cost is ${formatINR(fin.projectCost)} with a potential loan of ${formatINR(fin.potentialLoan)} under the ${fin.scheme.name} at ${fin.interestRate}% for ${fin.tenureYears} years (estimated EMI ${formatINR(fin.emi)}). Focus first on ${profile.opportunities[0]?.name ?? "direct local sales"} and build a repeat customer base within your village before expanding.`;
   }
 
-  const prefix =
-    input.language === "hi"
-      ? "सांकेतिक विश्लेषण (डेमो): "
-      : "";
+  const demoPrefixes: Partial<Record<AdvisorInput["language"], string>> = {
+    hi: "सांकेतिक विश्लेषण (डेमो): ", mr: "सूचक विश्लेषण (डेमो): ", gu: "સૂચક વિશ્લેષણ (ડેમો): ",
+    ta: "குறியீட்டு பகுப்பாய்வு (டெமோ): ", te: "సూచనాత్మక విశ్లేషణ (డెమో): ", ml: "സൂചനാ വിശകലനം (ഡെമോ): ",
+    bn: "সূচক বিশ্লেষণ (ডেমো): ", pa: "ਸੰਕੇਤਕ ਵਿਸ਼ਲੇਸ਼ਣ (ਡੈਮੋ): ",
+  };
+  const prefix = demoPrefixes[input.language] ?? "";
   return prefix + body;
 }
 
@@ -68,7 +70,7 @@ export const askAdvisor = createServerFn({ method: "POST" })
     const fin = calculateFinancials(a.margin);
     const profile = getProfile(a.category);
     const system = `You are GramUdyam AI, a practical business advisor for rural Indian micro-entrepreneurs.
-Answer in ${data.language === "hi" ? "Hindi" : "simple English"}, under 130 words, plain and concrete. Write plain sentences only — no markdown, no asterisks, no headings.
+Answer in ${{ en: "simple English", hi: "Hindi", mr: "Marathi", gu: "Gujarati", ta: "Tamil", te: "Telugu", ml: "Malayalam", bn: "Bengali", pa: "Punjabi" }[data.language]}, under 130 words, plain and concrete. Write plain sentences only — no markdown, no asterisks, no headings.
 Never promise loan approval or guaranteed profit. Label numbers as estimates.
 Context: location ${a.village}, ${a.block}, ${a.district}, ${a.state}. Category ${a.category}. Experience ${a.experience}. Target market ${a.targetMarket}.
 Margin ${fin.margin}, project cost ${fin.projectCost}, potential loan ${fin.potentialLoan}, scheme ${fin.scheme.name}, interest ${fin.interestRate}%, tenure ${fin.tenureYears} years, EMI ${fin.emi}.
