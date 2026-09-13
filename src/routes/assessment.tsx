@@ -17,6 +17,8 @@ export const Route = createFileRoute("/assessment")({
         content:
           "Share your location, available margin capital and business idea to generate a complete business and financial report.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:title", content: "Business Assessment — Gram Udyam" },
       {
         property: "og:description",
@@ -123,8 +125,9 @@ function AssessmentPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="mx-auto max-w-3xl px-4 py-10">
-        <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">{t("assessment")}</h1>
+      <main className="mx-auto max-w-4xl px-4 py-12 sm:py-16">
+        <p className="text-sm font-bold uppercase text-primary">Plan with confidence</p>
+        <h1 className="mt-2 text-4xl font-extrabold sm:text-5xl">{t("assessment")}</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Three short steps. Your answers stay on this device.
         </p>
@@ -145,7 +148,7 @@ function AssessmentPage() {
           ))}
         </div>
 
-        <Card className="mt-6 space-y-4">
+        <Card className="mt-8 space-y-5 p-6 sm:p-8">
           {step === 0 ? (
             <>
               <Field label={t("state")} error={errors["state"]}>

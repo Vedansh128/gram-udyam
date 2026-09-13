@@ -14,6 +14,8 @@ export const Route = createFileRoute("/how-it-works")({
         content:
           "See how Gram Udyam calculates project cost, routes you to a scheme and estimates your EMI.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:title", content: "How Gram Udyam Works" },
       {
         property: "og:description",
@@ -46,11 +48,12 @@ function HowItWorks() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="mx-auto max-w-4xl px-4 py-10">
-        <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">How It Works</h1>
-        <div className="mt-6 space-y-4">
+      <main className="mx-auto max-w-5xl px-4 py-12 sm:py-16">
+        <p className="text-sm font-bold uppercase text-primary">Transparent by design</p>
+        <h1 className="mt-2 text-4xl font-extrabold sm:text-5xl">How It Works</h1>
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
           {stages.map(([title, body], i) => (
-            <Card key={title} className="flex gap-4">
+            <Card key={title} className="flex min-h-36 gap-4 p-6">
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
                 {i + 1}
               </span>

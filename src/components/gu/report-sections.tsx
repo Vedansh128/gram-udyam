@@ -34,7 +34,7 @@ export function ScoreCard({ report }: { report: Report }) {
   const offset = circumference * (1 - score / 100);
 
   return (
-    <Card className="grid gap-6 md:grid-cols-[auto_1fr] md:items-center">
+    <Card className="grid gap-6 border-l-4 border-l-primary p-6 md:grid-cols-[auto_1fr] md:items-center">
       <div className="mx-auto flex flex-col items-center">
         <svg width="180" height="180" viewBox="0 0 180 180" role="img" aria-label={`Score ${score} out of 100`}>
           <circle cx="90" cy="90" r={radius} fill="none" stroke="var(--muted)" strokeWidth="14" />
@@ -146,7 +146,7 @@ export function OpportunitySection({ report }: { report: Report }) {
     >
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {report.profile.opportunities.map((o) => (
-          <Card key={o.name} className="flex flex-col">
+          <Card key={o.name} className="flex min-h-48 flex-col border-t-4 border-t-primary">
             <h3 className="text-base font-bold">{o.name}</h3>
             <div className="mt-3 flex flex-wrap gap-2">
               <Badge tone={o.demand === "High" ? "success" : "muted"}>Demand: {o.demand}</Badge>
@@ -321,7 +321,7 @@ export function FinancialRoadmap({ report }: { report: Report }) {
       title="Your Financial Roadmap"
       subtitle="Estimated repayment — subject to final sanction terms."
     >
-      <Card className="bg-primary/5">
+      <Card className="border-l-4 border-l-primary bg-primary/5 p-6">
         <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
           {rows.map(([k, v]) => (
             <div key={k} className="rounded-xl bg-card p-4">
