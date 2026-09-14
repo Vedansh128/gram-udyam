@@ -129,6 +129,40 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const selector = "main > section, main > header, main > .glass-panel, main > .grid, main > div";
+    const reveal = (element: Element) => element.classList.add("is-visible");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          reveal(entry.target);
+          observer.unobserve(entry.target);
+        });
+      },
+      { rootMargin: "0px 0px -8%", threshold: 0.08 },
+    );
+
+    const register = () => {
+      document.querySelectorAll(selector).forEach((element) => {
+        if (element.classList.contains("scroll-reveal")) return;
+        element.classList.add("scroll-reveal");
+        if (prefersReducedMotion.matches) reveal(element);
+        else observer.observe(element);
+      });
+    };
+
+    register();
+    const mutations = new MutationObserver(register);
+    mutations.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      mutations.disconnect();
+      observer.disconnect();
+    };
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
