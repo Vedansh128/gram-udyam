@@ -25,10 +25,10 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl print:hidden">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/65 backdrop-blur-2xl print:hidden">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3.5">
         <Link to="/" className="flex items-center gap-2">
-          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm shadow-primary/20">
             <Sprout className="h-5 w-5" />
           </span>
           <span className="font-display text-lg font-extrabold">{t("brand")}</span>
@@ -39,7 +39,7 @@ export function Navbar() {
             <Link
               key={l.to}
               to={l.to}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              className="rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
               activeProps={{ className: "text-primary bg-secondary" }}
               activeOptions={{ exact: l.to === "/" }}
             >
@@ -48,14 +48,14 @@ export function Navbar() {
           ))}
           <button
             onClick={runDemo}
-            className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            className="rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
           >
             {t("tryDemo")}
           </button>
         </nav>
 
         <div className="flex items-center gap-2">
-          <label className="hidden items-center gap-2 rounded-lg border border-border bg-card px-2.5 sm:flex">
+          <label className="hidden items-center gap-2 rounded-full border border-border bg-card px-3 backdrop-blur-xl sm:flex">
             <Globe2 className="h-4 w-4 text-primary" />
             <span className="sr-only">Choose language</span>
             <select value={lang} onChange={(event) => setLang(event.target.value as typeof lang)} className="h-9 max-w-28 bg-transparent text-sm font-semibold outline-none">

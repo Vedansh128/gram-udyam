@@ -70,11 +70,11 @@ function Home() {
 
       <main>
         <section className="relative overflow-hidden border-b border-border">
-          <div className="absolute inset-0 bg-primary/5" />
-          <div className="relative mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:min-h-[680px] lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:py-16">
+          <div className="absolute inset-0 bg-primary/3" />
+          <div className="relative mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:min-h-[720px] lg:grid-cols-[1.08fr_.92fr] lg:items-center lg:py-16">
             <div className="relative z-10">
               <Badge tone="primary">Local insight · Clear finance · Better decisions</Badge>
-              <h1 className="mt-5 max-w-3xl text-4xl font-extrabold leading-[1.08] sm:text-5xl lg:text-7xl">
+              <h1 className="text-gradient mt-5 max-w-3xl text-4xl font-extrabold leading-[1.08] sm:text-5xl lg:text-7xl">
                 {t("heroTitle")}
               </h1>
               <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -95,9 +95,9 @@ function Home() {
               </Button>
             </div>
 
-            <div className="relative min-h-[420px] overflow-hidden rounded-lg border border-border shadow-2xl lg:min-h-[560px]">
+            <div className="relative min-h-[420px] overflow-hidden rounded-2xl border border-border shadow-2xl lg:min-h-[560px]">
               <img src={entrepreneurImage} alt="A rural entrepreneur managing a modern dairy enterprise" width={1280} height={1280} className="absolute inset-0 h-full w-full object-cover" />
-              <div className="absolute inset-x-4 bottom-4 glass-panel rounded-lg p-4 sm:inset-x-6 sm:bottom-6">
+              <div className="absolute inset-x-4 bottom-4 glass-panel rounded-xl p-4 sm:inset-x-6 sm:bottom-6">
                 <p className="text-xs font-bold uppercase text-primary">Sample structuring</p>
                 <div className="mt-3 grid grid-cols-2 gap-2">
                 {[
@@ -106,7 +106,7 @@ function Home() {
                   ["Potential loan", "₹9,00,000"],
                   ["Recommended scheme", "Term Loan Scheme"],
                 ].map(([k, v]) => (
-                  <div key={k} className="rounded-md bg-background/75 p-3">
+                  <div key={k} className="rounded-lg border border-border bg-background/75 p-3 backdrop-blur-lg">
                     <span className="block text-xs text-muted-foreground">{k}</span>
                     <span className="mt-1 block text-sm font-bold">{v}</span>
                   </div>
@@ -120,9 +120,9 @@ function Home() {
         <section className="mx-auto max-w-6xl px-4 py-20">
           <p className="text-sm font-bold uppercase text-primary">Your path forward</p>
           <h2 className="mt-2 max-w-xl text-3xl font-bold sm:text-4xl">From a local idea to an actionable plan</h2>
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-6">
             {steps.map((s) => (
-              <Card key={s.n} className="mt-6 min-h-52 border-t-4 border-t-primary p-6">
+              <Card key={s.n} className={`mt-6 min-h-52 border-t-2 border-t-primary p-6 ${s.n === "02" ? "md:col-span-4" : "md:col-span-3"} ${s.n === "03" ? "md:col-span-2" : ""}`}>
                 <span className="text-4xl font-extrabold text-primary/25">{s.n}</span>
                 <h3 className="mt-2 text-lg font-bold">{s.title}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{s.body}</p>
@@ -131,16 +131,16 @@ function Home() {
           </div>
         </section>
 
-        <section className="border-y border-border bg-primary text-primary-foreground">
+        <section className="border-y border-border bg-surface/80 text-foreground backdrop-blur-xl">
           <div className="mx-auto max-w-6xl px-4 py-20">
-            <p className="text-sm font-bold uppercase text-primary-foreground/65">Built for local enterprise</p>
+             <p className="text-sm font-bold uppercase text-primary">Built for local enterprise</p>
             <h2 className="mt-2 text-3xl font-bold sm:text-4xl">{t("features")}</h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {features.map((f) => (
-                <Card key={f.label} className="border-primary-foreground/15 bg-primary-foreground/8 text-primary-foreground shadow-none backdrop-blur-sm">
+                <Card key={f.label} className="border-border bg-card/70 text-foreground shadow-none backdrop-blur-xl">
                   <f.icon className="h-6 w-6 text-accent" />
                   <h3 className="mt-3 text-base font-bold">{f.label}</h3>
-                  <p className="mt-1 text-sm text-primary-foreground/70">{f.body}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{f.body}</p>
                 </Card>
               ))}
             </div>
