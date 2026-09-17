@@ -16,6 +16,7 @@ export function Navbar() {
     { to: "/", label: t("home") },
     { to: "/assessment", label: t("assessment") },
     { to: "/calculator", label: t("calculator") },
+    { to: "/schemes", label: t("schemes") },
     { to: "/how-it-works", label: t("howItWorks") },
   ] as const;
 
