@@ -4,6 +4,7 @@ import { useState } from "react";
 import { LANGUAGES, useLang } from "@/lib/gramudyam/i18n";
 import { DEMO_ASSESSMENT } from "@/lib/gramudyam/report";
 import { saveAssessment } from "@/lib/gramudyam/store";
+import { ThemeToggle } from "./ThemeToggle";
 import { Button, LinkButton } from "./ui";
 
 export function Navbar() {
@@ -62,6 +63,7 @@ export function Navbar() {
               {LANGUAGES.map((item) => <option key={item.code} value={item.code}>{item.label}</option>)}
             </select>
           </label>
+          <ThemeToggle />
           <LinkButton to="/assessment" className="hidden sm:inline-flex">
             {t("startAssessment")}
           </LinkButton>

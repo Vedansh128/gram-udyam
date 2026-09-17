@@ -7,3 +7,4 @@
 - [x] Apply the selected dark graphite-lime glass design across the experience.
 - [x] Restructure the homepage into a modern dashboard and bento presentation.
 - [x] Verify all key flows and responsive layouts after the redesign.
+- [x] Add a persistent light and dark theme switch across the website.
