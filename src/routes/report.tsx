@@ -138,10 +138,32 @@ function ReportPage() {
               {assessment.skills ? ` · Skills: ${assessment.skills}` : ""}
             </p>
           </div>
-          <Button size="lg" onClick={() => window.print()} className="print:hidden">
-            <Download className="h-5 w-5" />
-            {t("download")}
-          </Button>
+          <div className="flex flex-wrap gap-2 print:hidden">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => void saveToDashboard()}
+              disabled={saveState === "saving" || saveState === "saved"}
+            >
+              <Save className="h-5 w-5" />
+              {saveState === "saved"
+                ? "Saved"
+                : saveState === "saving"
+                  ? "Saving…"
+                  : user
+                    ? "Save to my dashboard"
+                    : "Sign in to save"}
+            </Button>
+            <Button size="lg" onClick={() => window.print()}>
+              <Download className="h-5 w-5" />
+              {t("download")}
+            </Button>
+          </div>
+          {saveState === "error" ? (
+            <p className="w-full text-sm text-danger print:hidden">
+              Could not save this report. Please try again.
+            </p>
+          ) : null}
         </header>
 
         <Section
