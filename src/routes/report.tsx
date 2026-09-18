@@ -1,6 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Download, MapPin } from "lucide-react";
-import { useMemo } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Download, MapPin, Save } from "lucide-react";
+import { useMemo, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useSession } from "@/lib/gramudyam/auth";
 import { Navbar } from "@/components/gu/Navbar";
 import { Footer } from "@/components/gu/Footer";
 import { ChatAdvisor } from "@/components/gu/ChatAdvisor";
