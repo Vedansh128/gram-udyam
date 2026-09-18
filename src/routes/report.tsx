@@ -46,8 +46,33 @@ export const Route = createFileRoute("/report")({
 
 function ReportPage() {
   const { t } = useLang();
+  const navigate = useNavigate();
+  const { user } = useSession();
   const { assessment, loaded } = useStoredAssessment();
   const report = useMemo(() => (assessment ? buildReport(assessment) : null), [assessment]);
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+
+  const saveToDashboard = async () => {
+    if (!assessment || !report) return;
+    if (!user) {
+      navigate({ to: "/auth" });
+      return;
+    }
+    setSaveState("saving");
+    const location = [assessment.village, assessment.block, assessment.district, assessment.state]
+      .filter(Boolean)
+      .join(", ");
+    const { error } = await supabase.from("saved_reports").insert({
+      user_id: user.id,
+      title: `${assessment.category} — ${assessment.village || assessment.district}`,
+      category: assessment.category,
+      location,
+      margin: assessment.margin,
+      score: report.score,
+      assessment: assessment as unknown as Record<string, unknown>,
+    });
+    setSaveState(error ? "error" : "saved");
+  };
 
   if (!loaded) {
     return (
