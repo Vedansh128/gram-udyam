@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LanguageProvider } from "../lib/gramudyam/i18n";
+import { ChatWidget } from "../components/gu/ChatWidget";
 
 
 function NotFoundComponent() {
@@ -139,6 +140,7 @@ function RootComponent() {
       <LanguageProvider>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
+        <ChatWidget />
       </LanguageProvider>
     </QueryClientProvider>
   );
