@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Globe2, Menu, Sprout, X } from "lucide-react";
+import { Globe2, LayoutDashboard, LogIn, Menu, Sprout, X } from "lucide-react";
 import { useState } from "react";
+import { displayName, useSession } from "@/lib/gramudyam/auth";
 import { LANGUAGES, useLang } from "@/lib/gramudyam/i18n";
 import { DEMO_ASSESSMENT } from "@/lib/gramudyam/report";
 import { saveAssessment } from "@/lib/gramudyam/store";
@@ -11,6 +12,7 @@ export function Navbar() {
   const { t, lang, setLang } = useLang();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { user } = useSession();
 
   const links = [
     { to: "/", label: t("home") },
