@@ -1,6 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Download, MapPin } from "lucide-react";
-import { useMemo } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Download, MapPin, Save } from "lucide-react";
+import { useMemo, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useSession } from "@/lib/gramudyam/auth";
 import { Navbar } from "@/components/gu/Navbar";
 import { Footer } from "@/components/gu/Footer";
 import { ChatAdvisor } from "@/components/gu/ChatAdvisor";
@@ -44,8 +46,33 @@ export const Route = createFileRoute("/report")({
 
 function ReportPage() {
   const { t } = useLang();
+  const navigate = useNavigate();
+  const { user } = useSession();
   const { assessment, loaded } = useStoredAssessment();
   const report = useMemo(() => (assessment ? buildReport(assessment) : null), [assessment]);
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+
+  const saveToDashboard = async () => {
+    if (!assessment || !report) return;
+    if (!user) {
+      navigate({ to: "/auth" });
+      return;
+    }
+    setSaveState("saving");
+    const location = [assessment.village, assessment.block, assessment.district, assessment.state]
+      .filter(Boolean)
+      .join(", ");
+    const { error } = await supabase.from("saved_reports").insert({
+      user_id: user.id,
+      title: `${assessment.category} — ${assessment.village || assessment.district}`,
+      category: assessment.category,
+      location,
+      margin: assessment.margin,
+      score: report.score,
+      assessment: JSON.parse(JSON.stringify(assessment)),
+    });
+    setSaveState(error ? "error" : "saved");
+  };
 
   if (!loaded) {
     return (
@@ -111,10 +138,32 @@ function ReportPage() {
               {assessment.skills ? ` · Skills: ${assessment.skills}` : ""}
             </p>
           </div>
-          <Button size="lg" onClick={() => window.print()} className="print:hidden">
-            <Download className="h-5 w-5" />
-            {t("download")}
-          </Button>
+          <div className="flex flex-wrap gap-2 print:hidden">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => void saveToDashboard()}
+              disabled={saveState === "saving" || saveState === "saved"}
+            >
+              <Save className="h-5 w-5" />
+              {saveState === "saved"
+                ? "Saved"
+                : saveState === "saving"
+                  ? "Saving…"
+                  : user
+                    ? "Save to my dashboard"
+                    : "Sign in to save"}
+            </Button>
+            <Button size="lg" onClick={() => window.print()}>
+              <Download className="h-5 w-5" />
+              {t("download")}
+            </Button>
+          </div>
+          {saveState === "error" ? (
+            <p className="w-full text-sm text-danger print:hidden">
+              Could not save this report. Please try again.
+            </p>
+          ) : null}
         </header>
 
         <Section

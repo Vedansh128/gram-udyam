@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Globe2, Menu, Sprout, X } from "lucide-react";
+import { Globe2, LayoutDashboard, LogIn, Menu, Sprout, X } from "lucide-react";
 import { useState } from "react";
+import { displayName, useSession } from "@/lib/gramudyam/auth";
 import { LANGUAGES, useLang } from "@/lib/gramudyam/i18n";
 import { DEMO_ASSESSMENT } from "@/lib/gramudyam/report";
 import { saveAssessment } from "@/lib/gramudyam/store";
@@ -11,6 +12,7 @@ export function Navbar() {
   const { t, lang, setLang } = useLang();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { user } = useSession();
 
   const links = [
     { to: "/", label: t("home") },
@@ -65,7 +67,18 @@ export function Navbar() {
             </select>
           </label>
           <ThemeToggle />
-          <LinkButton to="/assessment" className="hidden sm:inline-flex">
+          {user ? (
+            <LinkButton to="/dashboard" variant="outline" className="hidden max-w-44 sm:inline-flex">
+              <LayoutDashboard className="h-4 w-4" />
+              <span className="truncate">{displayName(user)}</span>
+            </LinkButton>
+          ) : (
+            <LinkButton to="/auth" variant="outline" className="hidden sm:inline-flex">
+              <LogIn className="h-4 w-4" />
+              Sign in
+            </LinkButton>
+          )}
+          <LinkButton to="/assessment" className="hidden md:inline-flex">
             {t("startAssessment")}
           </LinkButton>
           <Button
@@ -104,6 +117,15 @@ export function Navbar() {
                 {LANGUAGES.map((item) => <option key={item.code} value={item.code}>{item.label}</option>)}
               </select>
             </label>
+            <LinkButton
+              to={user ? "/dashboard" : "/auth"}
+              variant="outline"
+              className="mt-2"
+              size="lg"
+              onClick={() => setOpen(false)}
+            >
+              {user ? "My Dashboard" : "Sign in / Create account"}
+            </LinkButton>
             <LinkButton to="/assessment" className="mt-2" size="lg" onClick={() => setOpen(false)}>
               {t("startAssessment")}
             </LinkButton>
