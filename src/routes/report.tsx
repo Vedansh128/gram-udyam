@@ -69,7 +69,7 @@ function ReportPage() {
       location,
       margin: assessment.margin,
       score: report.score,
-      assessment: assessment as unknown as Record<string, unknown>,
+      assessment: JSON.parse(JSON.stringify(assessment)),
     });
     setSaveState(error ? "error" : "saved");
   };
